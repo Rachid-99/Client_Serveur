@@ -10,3 +10,6 @@ print("Le serveur écoute à présent sur le port {}".format(port))
 
 connexion_avec_client, infos_connexion = connexion_principale.accept() #Accepter une connexion venant du client
 print(infos_connexion)
+
+connexion_avec_client.send(b"Je viens d'accepter la connexion")
+
