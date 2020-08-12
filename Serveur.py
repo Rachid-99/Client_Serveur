@@ -20,6 +20,7 @@ while serveur_lance:
     # Pour cela, on écoute la connexion_principale en lecture
     # On attend maximum 50ms
     connexions_demandees, wlist, xlist = select.select([connexion_principale], [], [], 0.05)
+    #print(connexions_demandees)
     for connexion in connexions_demandees:
         connexion_avec_client, infos_connexion = connexion.accept()#on recupere les informations de chaque clients
         clients_connectes.append(connexion_avec_client)# On ajoute le socket connecté à la liste des clients
@@ -38,11 +39,13 @@ while serveur_lance:
             msg_recu = msg_recu.decode()
             print("Reçu : {}".format(msg_recu))
             try:
-                client.send(b"5 / 5")
+               client.send(b'5/5')
             except BrokenPipeError:
                 pass
             if msg_recu == "fin":
-                serveur_lance = False
+                clients_connectes.remove(client)
+                client.close()
+                print("fermer")
 
 print("Fermeture des connexions")
 for client in clients_connectes:
